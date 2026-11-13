@@ -46,11 +46,11 @@ The implementation demonstrates:
 
 
 
-The project uses Python, Pandas, PyArrow, DuckDB, and Pytest.
+\*\*Technology stack:\*\* Python, Pandas, PyArrow, DuckDB, and Pytest.
 
 
 
-\*\*Key results:\*\*
+\### Key Results
 
 
 
@@ -94,11 +94,11 @@ The solution must demonstrate partition pruning, avoid excessive small files, an
 
 
 
-\### Problems addressed
+\### Problems Addressed
 
 
 
-\*\*Problem 1: Inefficient data scanning\*\*
+\*\*Problem 1: Inefficient Data Scanning\*\*
 
 
 
@@ -110,7 +110,7 @@ When a dataset contains records from multiple dates, querying one specific date 
 
 
 
-\*\*Problem 2: Too many small files\*\*
+\*\*Problem 2: Too Many Small Files\*\*
 
 
 
@@ -122,7 +122,7 @@ When data is written in many small files, the query engine must manage additiona
 
 
 
-\*\*Problem 3: Choosing the right partition granularity\*\*
+\*\*Problem 3: Choosing the Right Partition Granularity\*\*
 
 
 
@@ -150,7 +150,7 @@ In this project, the data lake stores processed order records in Parquet files.
 
 
 
-\### Important concepts
+\### Important Concepts
 
 
 
@@ -206,7 +206,7 @@ In this project, the data lake stores processed order records in Parquet files.
 
 
 
-\### Why these technologies?
+\### Why These Technologies?
 
 
 
@@ -238,27 +238,21 @@ The project uses a synthetic order dataset.
 
 
 
-\*\*Input file:\*\* `data/raw/orders.csv`
+\- \*\*Input file:\*\* `data/raw/orders.csv`
+
+\- \*\*Number of records:\*\* 100,000
+
+\- \*\*Number of columns:\*\* 5
+
+\- \*\*Date range:\*\* October 15, 2026 to November 13, 2026
 
 
 
-\*\*Number of records:\*\* 100,000
+\### Dataset Schema
 
 
 
-\*\*Number of columns:\*\* 5
-
-
-
-\*\*Date range:\*\* October 15, 2026 to November 13, 2026.
-
-
-
-\### Dataset schema
-
-
-
-| Column | Data type | Description |
+| Column | Data Type | Description |
 
 |---|---|---|
 
@@ -274,13 +268,13 @@ The project uses a synthetic order dataset.
 
 
 
-\### Sample records
+\### Sample Records
 
 
 
 | order\_id | customer\_id | order\_date | amount | status |
 
-|---:|---:|---|---:|---|
+|---|---:|---|---:|---|
 
 | 100001 | 1250 | 2026-10-15 | 1500.50 | Completed |
 
@@ -308,87 +302,87 @@ The dataset generator uses a fixed random seed so the synthetic dataset can be r
 
 ```text
 
-&#x20;                RAW DATA
+&#x20;                   RAW DATA
 
-&#x20;                   |
+&#x20;                      |
 
-&#x20;                   v
+&#x20;                      v
 
-&#x20;            orders.csv
+&#x20;                  orders.csv
 
-&#x20;                   |
+&#x20;                      |
 
-&#x20;                   v
+&#x20;                      v
 
-&#x20;            DATA INGESTION
+&#x20;                DATA INGESTION
 
-&#x20;                   |
+&#x20;                      |
 
-&#x20;                   v
+&#x20;                      v
 
-&#x20;            DATA VALIDATION
+&#x20;               DATA VALIDATION
 
-&#x20;                   |
+&#x20;                      |
 
-&#x20;             +-----+-----+
+&#x20;                +-----+-----+
 
-&#x20;             |           |
+&#x20;                |           |
 
-&#x20;             v           v
+&#x20;                v           v
 
-&#x20;        VALID DATA   REJECTED DATA
+&#x20;            VALID DATA  REJECTED DATA
 
-&#x20;             |
+&#x20;                |
 
-&#x20;             v
+&#x20;                v
 
-&#x20;       TRANSFORMATION
+&#x20;           TRANSFORMATION
 
-&#x20;             |
+&#x20;                |
 
-&#x20;             v
+&#x20;                v
 
-&#x20;       DATE EXTRACTION
+&#x20;            DATE EXTRACTION
 
-&#x20;        Year/Month/Day
+&#x20;             Year/Month/Day
 
-&#x20;             |
+&#x20;                |
 
-&#x20;             v
+&#x20;                v
 
-&#x20;      DATE PARTITIONING
+&#x20;           DATE PARTITIONING
 
-&#x20;             |
+&#x20;                |
 
-&#x20;             v
+&#x20;                v
 
-&#x20;       PARQUET STORAGE
+&#x20;            PARQUET STORAGE
 
-&#x20;             |
+&#x20;                |
 
-&#x20;      +------+------+----------------+
+&#x20;         +------+------+----------------+
 
-&#x20;      |             |                |
+&#x20;         |             |                |
 
-&#x20;      v             v                v
+&#x20;         v             v                v
 
-&#x20;PARTITION       COMPACTION       PARTITION
+&#x20;    PARTITION      COMPACTION       PARTITION
 
-&#x20; PRUNING        DEMONSTRATION    COMPARISON
+&#x20;     PRUNING      DEMONSTRATION     COMPARISON
 
-&#x20;      |             |                |
+&#x20;         |             |                |
 
-&#x20;      v             v                v
+&#x20;         v             v                v
 
-&#x20;DUCKDB QUERY   SMALL FILES      DAILY VS
+&#x20;    DUCKDB QUERY   SMALL FILES      DAILY VS
 
-&#x20;               REDUCTION        MONTHLY
+&#x20;                   REDUCTION        MONTHLY
 
 ```
 
 
 
-\### Pipeline explanation
+\### Pipeline Explanation
 
 
 
@@ -424,91 +418,91 @@ The dataset generator uses a fixed random seed so the synthetic dataset can be r
 
 data-lake-project/
 
-│
+|
 
-├── data/
+|-- data/
 
-│   │
+|   |
 
-│   ├── raw/
+|   |-- raw/
 
-│   │   └── orders.csv
+|   |   |-- orders.csv
 
-│   │
+|   |
 
-│   ├── processed/
+|   |-- processed/
 
-│   │   ├── orders/
+|   |   |
 
-│   │   │   └── year=2026/
+|   |   |-- orders/
 
-│   │   │       └── month=11/
+|   |   |   |-- year=2026/
 
-│   │   │           └── day=11/
+|   |   |       |-- month=11/
 
-│   │   │               └── \*.parquet
+|   |   |           |-- day=11/
 
-│   │   │
+|   |   |               |-- \*.parquet
 
-│   │   └── monthly\_orders/
+|   |   |
 
-│   │       └── year=2026/
+|   |   |-- monthly\_orders/
 
-│   │           └── month=11/
+|   |       |-- year=2026/
 
-│   │               └── \*.parquet
+|   |           |-- month=11/
 
-│   │
+|   |
 
-│   ├── fragmented/
+|   |-- fragmented/
 
-│   │   └── orders/
+|   |   |-- orders/
 
-│   │
+|   |
 
-│   └── compacted/
+|   |-- compacted/
 
-│       └── orders/
+|       |-- orders/
 
-│
+|
 
-├── src/
+|-- src/
 
-│   ├── data\_generator.py
+|   |-- data\_generator.py
 
-│   ├── ingestion.py
+|   |-- ingestion.py
 
-│   ├── validation.py
+|   |-- validation.py
 
-│   ├── transformation.py
+|   |-- transformation.py
 
-│   ├── partitioning.py
+|   |-- partitioning.py
 
-│   ├── main.py
+|   |-- main.py
 
-│   ├── file\_stats.py
+|   |-- file\_stats.py
 
-│   ├── pruning\_demo.py
+|   |-- pruning\_demo.py
 
-│   ├── compaction\_demo.py
+|   |-- compaction\_demo.py
 
-│   └── partition\_comparison.py
+|   |-- partition\_comparison.py
 
-│
+|
 
-├── tests/
+|-- tests/
 
-│   └── test\_validation.py
+|   |-- test\_validation.py
 
-│
+|
 
-├── reports/
+|-- reports/
 
-│
+|
 
-├── README.md
+|-- README.md
 
-└── requirements.txt
+|-- requirements.txt
 
 ```
 
@@ -539,6 +533,8 @@ This script generates 100,000 synthetic order records.
 
 
 It creates:
+
+
 
 \- Unique order IDs.
 
@@ -581,6 +577,8 @@ The ingestion module reads the raw CSV file using Pandas.
 
 
 Main responsibilities:
+
+
 
 \- Check whether the input file exists.
 
@@ -660,6 +658,8 @@ The transformation module prepares valid data for storage.
 
 Operations include:
 
+
+
 \- Convert `order\_date` to datetime.
 
 \- Convert order and customer IDs into integer types.
@@ -738,7 +738,7 @@ Each date has its own partition folder and, in this dataset, one Parquet file.
 
 
 
-\#### Why partition by date?
+\#### Why Partition by Date?
 
 
 
@@ -762,7 +762,7 @@ Date-based partitioning makes it possible to skip unrelated date partitions.
 
 
 
-\#### Output replacement strategy
+\#### Output Replacement Strategy
 
 
 
@@ -771,6 +771,8 @@ The implementation writes new output into a staging directory first.
 
 
 After writing:
+
+
 
 1\. Existing output is moved to a backup directory.
 
@@ -798,7 +800,7 @@ This is a safer full-refresh replacement approach, not a fully transactional or 
 
 
 
-\### What is partition pruning?
+\### What Is Partition Pruning?
 
 
 
@@ -850,7 +852,7 @@ If the query requests November 11, the engine does not need to scan October's fi
 
 
 
-\### SQL query
+\### SQL Query
 
 
 
@@ -876,7 +878,7 @@ WHERE year = 2026
 
 
 
-\### Experimental results
+\### Experimental Results
 
 
 
@@ -914,7 +916,7 @@ Data Read: 32.7 kB
 
 
 
-\### What does this prove?
+\### What Does This Prove?
 
 
 
@@ -938,11 +940,11 @@ This demonstrates partition pruning in the implemented dataset.
 
 
 
-The project compares two partitioning strategies:
+The project compares two partitioning strategies.
 
 
 
-\### Daily partitioning
+\### Daily Partitioning
 
 
 
@@ -968,7 +970,9 @@ orders/
 
 
 
-Advantages:
+\*\*Advantages:\*\*
+
+
 
 \- Better granularity for date-specific queries.
 
@@ -978,7 +982,9 @@ Advantages:
 
 
 
-Disadvantages:
+\*\*Disadvantages:\*\*
+
+
 
 \- Creates more partition folders.
 
@@ -986,7 +992,7 @@ Disadvantages:
 
 
 
-\### Monthly partitioning
+\### Monthly Partitioning
 
 
 
@@ -1008,7 +1014,9 @@ monthly\_orders/
 
 
 
-Advantages:
+\*\*Advantages:\*\*
+
+
 
 \- Fewer partitions.
 
@@ -1018,7 +1026,9 @@ Advantages:
 
 
 
-Disadvantages:
+\*\*Disadvantages:\*\*
+
+
 
 \- A daily query may need to inspect data inside a larger monthly file.
 
@@ -1026,7 +1036,7 @@ Disadvantages:
 
 
 
-\### Comparison results
+\### Comparison Results
 
 
 
@@ -1058,6 +1068,8 @@ Both strategies returned the same 3,233 records.
 
 However:
 
+
+
 \- Daily partitioning read 32.7 KB.
 
 \- Monthly partitioning read 119.3 KB.
@@ -1068,7 +1080,7 @@ DuckDB's monthly execution plan also reported row-group filtering within the sel
 
 
 
-\### Final decision
+\### Final Decision
 
 
 
@@ -1092,7 +1104,7 @@ The results are from a local synthetic dataset and one execution-plan comparison
 
 
 
-\### What is the small-file problem?
+\### What Is the Small-File Problem?
 
 
 
@@ -1126,6 +1138,8 @@ orders/
 
 A large number of files can increase:
 
+
+
 \- File-opening overhead.
 
 \- Metadata management.
@@ -1136,11 +1150,13 @@ A large number of files can increase:
 
 
 
-\### Why does it happen?
+\### Why Does It Happen?
 
 
 
 It can happen when:
+
+
 
 \- Data arrives in small batches.
 
@@ -1152,7 +1168,7 @@ It can happen when:
 
 
 
-\### How did this project demonstrate it?
+\### How Did This Project Demonstrate It?
 
 
 
@@ -1180,7 +1196,7 @@ This creates a fragmented dataset for the experiment.
 
 
 
-\### What is compaction?
+\### What Is Compaction?
 
 
 
@@ -1189,6 +1205,8 @@ Compaction is the process of combining multiple small files into fewer, larger f
 
 
 The project:
+
+
 
 1\. Reads the original daily partitioned dataset.
 
@@ -1210,7 +1228,7 @@ The original date-based partition structure is preserved.
 
 
 
-\### Compaction results
+\### Compaction Results
 
 
 
@@ -1238,7 +1256,7 @@ The original date-based partition structure is preserved.
 
 
 
-\### What does this prove?
+\### What Does This Prove?
 
 
 
@@ -1290,7 +1308,7 @@ The script examines the original daily Parquet dataset.
 
 
 
-\### Production consideration
+\### Production Consideration
 
 
 
@@ -1342,7 +1360,7 @@ The project contains five test cases:
 
 
 
-\### Test command
+\### Test Command
 
 
 
@@ -1384,13 +1402,15 @@ The tests verify the implemented validation rules using sample DataFrames.
 
 Install:
 
+
+
 \- Python 3.12
 
 \- pip
 
 
 
-\### Step 1: Create and activate a virtual environment
+\### Step 1: Create and Activate a Virtual Environment
 
 
 
@@ -1404,7 +1424,7 @@ venv\\Scripts\\activate
 
 
 
-\### Step 2: Install dependencies
+\### Step 2: Install Dependencies
 
 
 
@@ -1416,7 +1436,7 @@ pip install pandas pyarrow duckdb pytest
 
 
 
-\### Step 3: Generate the synthetic dataset
+\### Step 3: Generate the Synthetic Dataset
 
 
 
@@ -1428,7 +1448,7 @@ python src\\data\_generator.py
 
 
 
-\### Step 4: Run the main pipeline
+\### Step 4: Run the Main Pipeline
 
 
 
@@ -1440,7 +1460,7 @@ python src\\main.py
 
 
 
-\### Step 5: Check file statistics
+\### Step 5: Check File Statistics
 
 
 
@@ -1452,7 +1472,7 @@ python src\\file\_stats.py
 
 
 
-\### Step 6: Demonstrate partition pruning
+\### Step 6: Demonstrate Partition Pruning
 
 
 
@@ -1464,7 +1484,7 @@ python src\\pruning\_demo.py
 
 
 
-\### Step 7: Demonstrate compaction
+\### Step 7: Demonstrate Compaction
 
 
 
@@ -1476,7 +1496,7 @@ python src\\compaction\_demo.py
 
 
 
-\### Step 8: Compare daily and monthly partitioning
+\### Step 8: Compare Daily and Monthly Partitioning
 
 
 
@@ -1488,7 +1508,7 @@ python src\\partition\_comparison.py
 
 
 
-\### Step 9: Run automated tests
+\### Step 9: Run Automated Tests
 
 
 
@@ -1653,6 +1673,4 @@ The project provides a foundation for extending the solution to larger datasets 
 
 
 \*\*Project Focus:\*\* Data Lake Design | Partitioning Strategy | Partition Pruning | Parquet | File Compaction | Data Engineering
-
-
 
