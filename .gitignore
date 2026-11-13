@@ -4,3 +4,7 @@ __pycache__/
 *.py[cod]
 .DS_Store
 Thumbs.db
+data/processed/
+data/fragmented/
+data/compacted/
+
